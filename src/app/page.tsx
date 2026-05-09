@@ -3,13 +3,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ExternalLink, Trash2, Sparkles, ChevronRight } from "lucide-react";
+import { ExternalLink, Trash2, Sparkles, ChevronRight, ListChecks } from "lucide-react";
 import { VCardPreview } from "@/components/VCardPreview";
 import { QRCodeBlock } from "@/components/QRCodeBlock";
 import { ActionButtons } from "@/components/ActionButtons";
 import { Toast } from "@/components/Toast";
 import { Accordion } from "@/components/Accordion";
 import { Wizard } from "@/components/wizard/Wizard";
+import { ProfileChoice } from "@/components/ProfileChoice";
 import { emptyProfile, type Profile } from "@/types/profile";
 import { loadProfile, saveProfile } from "@/lib/storage";
 import { buildVCard } from "@/lib/vcard";
@@ -25,13 +26,23 @@ export default function Home() {
   const [slugInput, setSlugInput] = useState("");
   const [publishing, setPublishing] = useState(false);
   const [toast, setToast] = useState<{ msg: string; variant: "success" | "error" } | null>(null);
+  const [showChoice, setShowChoice] = useState(false);
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const list = listSavedProfiles();
     setProfile(loadProfile());
-    setSaved(listSavedProfiles());
+    setSaved(list);
+    setShowChoice(list.length > 0);
     setHydrated(true);
   }, []);
+
+  const handleStartFresh = () => {
+    setProfile(emptyProfile);
+    saveProfile(emptyProfile);
+    setSlugInput("");
+    setShowChoice(false);
+  };
 
   useEffect(() => {
     if (!hydrated) return;
@@ -94,16 +105,30 @@ export default function Home() {
             <div className="h-[480px] animate-pulse rounded-3xl bg-white/60" />
             <div className="hidden h-[480px] animate-pulse rounded-3xl bg-white/60 lg:block" />
           </div>
+        ) : showChoice ? (
+          <ProfileChoice saved={saved} onCreateNew={handleStartFresh} />
         ) : (
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
-            <Wizard
-              profile={profile}
-              onChange={setProfile}
-              slugInput={slugInput}
-              onSlugInputChange={setSlugInput}
-              onPublish={handlePublish}
-              publishing={publishing}
-            />
+            <div>
+              {saved.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowChoice(true)}
+                  className="mb-3 inline-flex h-9 items-center gap-1.5 rounded-xl bg-brand-mist px-3 text-xs font-medium text-brand-navy hover:bg-brand-blue/10"
+                >
+                  <ListChecks className="h-3.5 w-3.5" />
+                  Profillerime dön
+                </button>
+              )}
+              <Wizard
+                profile={profile}
+                onChange={setProfile}
+                slugInput={slugInput}
+                onSlugInputChange={setSlugInput}
+                onPublish={handlePublish}
+                publishing={publishing}
+              />
+            </div>
 
             <aside className="hidden space-y-5 lg:block">
               <VCardPreview profile={profile} />
@@ -120,7 +145,7 @@ export default function Home() {
           </div>
         )}
 
-        {hydrated && saved.length > 0 && (
+        {hydrated && !showChoice && saved.length > 0 && (
           <section className="mt-6 lg:mt-10">
             <Accordion
               title="Yayınlanan Profillerin"
