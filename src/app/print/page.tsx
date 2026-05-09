@@ -31,6 +31,14 @@ export default function PrintPage() {
   const visibleSocials = profile.socials.filter((s) => s.url.trim());
   const fullName = profile.fullName || "Adınız Soyadınız";
 
+  if (!ready) {
+    return (
+      <main className="mx-auto max-w-4xl px-6 py-10">
+        <div className="h-[600px] animate-pulse rounded-2xl bg-slate-100" />
+      </main>
+    );
+  }
+
   return (
     <main className="mx-auto max-w-4xl px-6 py-10">
       <div className="no-print mb-6 flex items-center justify-between">

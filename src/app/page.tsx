@@ -40,22 +40,29 @@ export default function Home() {
         </p>
       </header>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <VCardForm profile={profile} onChange={setProfile} />
+      {!hydrated ? (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div className="h-[480px] animate-pulse rounded-2xl bg-slate-100" />
+          <div className="h-[480px] animate-pulse rounded-2xl bg-slate-100" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <VCardForm profile={profile} onChange={setProfile} />
 
-        <div className="space-y-6">
-          <VCardPreview profile={profile} />
-          <div className="flex flex-col items-start gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:flex-row sm:items-center">
-            <QRCodeBlock value={vcardString} onCanvasReady={setQrCanvas} />
-            <div className="flex-1 space-y-3">
-              <p className="text-sm text-slate-600">
-                Telefon kameranızla QR kodu tarayın — bilgileriniz kişilere eklensin.
-              </p>
-              <ActionButtons profile={profile} qrCanvas={qrCanvas} />
+          <div className="space-y-6">
+            <VCardPreview profile={profile} />
+            <div className="flex flex-col items-start gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:flex-row sm:items-center">
+              <QRCodeBlock value={vcardString} onCanvasReady={setQrCanvas} />
+              <div className="flex-1 space-y-3">
+                <p className="text-sm text-slate-600">
+                  Telefon kameranızla QR kodu tarayın — bilgileriniz kişilere eklensin.
+                </p>
+                <ActionButtons profile={profile} qrCanvas={qrCanvas} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       <footer className="mt-10 text-center text-xs text-slate-400">
         Veriler tarayıcınızın localStorage&apos;ında saklanır. Backend yok.
