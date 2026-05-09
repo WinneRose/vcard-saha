@@ -27,6 +27,14 @@ export async function ensureSchema(): Promise<void> {
         )
       `;
       await q`CREATE INDEX IF NOT EXISTS profiles_updated_at_idx ON profiles (updated_at DESC)`;
+      await q`
+        CREATE TABLE IF NOT EXISTS site_stats (
+          id INTEGER PRIMARY KEY DEFAULT 1,
+          visits BIGINT NOT NULL DEFAULT 0,
+          CONSTRAINT site_stats_singleton CHECK (id = 1)
+        )
+      `;
+      await q`INSERT INTO site_stats (id, visits) VALUES (1, 0) ON CONFLICT DO NOTHING`;
     })().catch((err) => {
       schemaReady = null;
       throw err;

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ExternalLink, Trash2, Sparkles, ChevronRight, ListChecks } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { VCardPreview } from "@/components/VCardPreview";
 import { QRCodeBlock } from "@/components/QRCodeBlock";
 import { ActionButtons } from "@/components/ActionButtons";
@@ -11,6 +11,7 @@ import { Toast } from "@/components/Toast";
 import { Accordion } from "@/components/Accordion";
 import { Wizard } from "@/components/wizard/Wizard";
 import { ProfileChoice } from "@/components/ProfileChoice";
+import { VisitCounter } from "@/components/VisitCounter";
 import { emptyProfile, type Profile } from "@/types/profile";
 import { loadProfile, saveProfile } from "@/lib/storage";
 import { buildVCard } from "@/lib/vcard";
@@ -90,14 +91,11 @@ export default function Home() {
       <Toast message={toast?.msg ?? null} variant={toast?.variant} onClose={() => setToast(null)} />
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
-        <header className="mb-5 flex items-center gap-2.5 sm:mb-8">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-navy text-white">
-            <Sparkles className="h-4 w-4 text-brand-orange" />
-          </div>
-          <div className="leading-tight">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-red">vCard Studio</p>
-            <p className="text-sm font-semibold text-brand-navy">Dijital Kartvizit</p>
-          </div>
+        <header className="mb-6 sm:mb-10">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-blue">vCard Studio</p>
+          <h1 className="mt-1 text-xl font-semibold tracking-tight text-brand-navy sm:text-2xl">
+            Dijital Kartvizit
+          </h1>
         </header>
 
         {!hydrated ? (
@@ -114,9 +112,8 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={() => setShowChoice(true)}
-                  className="mb-3 inline-flex h-9 items-center gap-1.5 rounded-xl bg-brand-mist px-3 text-xs font-medium text-brand-navy hover:bg-brand-blue/10"
+                  className="mb-3 inline-flex h-9 items-center rounded-xl bg-brand-mist px-3 text-xs font-medium text-brand-navy hover:bg-brand-blue/10"
                 >
-                  <ListChecks className="h-3.5 w-3.5" />
                   Profillerime dön
                 </button>
               )}
@@ -155,28 +152,22 @@ export default function Home() {
               <ul className="divide-y divide-slate-100">
                 {saved.map((s) => (
                   <li key={s.slug} className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
-                    <Link href={`/p/${s.slug}`} className="flex min-w-0 flex-1 items-center gap-3 active:scale-[0.99]">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
-                        <ChevronRight className="h-5 w-5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-semibold text-brand-navy">{s.fullName || s.slug}</p>
-                        <p className="truncate font-mono text-xs text-slate-500">/p/{s.slug}</p>
-                      </div>
+                    <Link href={`/p/${s.slug}`} className="min-w-0 flex-1 active:scale-[0.99]">
+                      <p className="truncate text-sm font-semibold text-brand-navy">{s.fullName || s.slug}</p>
+                      <p className="truncate font-mono text-xs text-slate-500">/p/{s.slug}</p>
                     </Link>
                     <div className="flex items-center gap-1">
                       <Link
                         href={`/p/${s.slug}`}
-                        className="inline-flex h-9 items-center gap-1 rounded-lg bg-brand-mist px-3 text-xs font-medium text-brand-navy hover:bg-brand-blue/10"
+                        className="inline-flex h-9 items-center rounded-lg bg-brand-mist px-3 text-xs font-medium text-brand-navy hover:bg-brand-blue/10"
                       >
-                        <ExternalLink className="h-3 w-3" />
-                        <span className="hidden sm:inline">Görüntüle</span>
+                        Görüntüle
                       </Link>
                       <button
                         type="button"
                         onClick={() => handleForget(s.slug)}
                         title="Bu kayıttan unut"
-                        className="inline-flex h-9 items-center gap-1 rounded-lg px-2 text-xs text-slate-400 hover:bg-red-50 hover:text-brand-red"
+                        className="inline-flex h-9 items-center rounded-lg px-2 text-xs text-slate-400 hover:bg-red-50 hover:text-brand-red"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
@@ -187,6 +178,10 @@ export default function Home() {
             </Accordion>
           </section>
         )}
+
+        <footer className="mt-10 pb-6">
+          <VisitCounter />
+        </footer>
       </main>
     </>
   );

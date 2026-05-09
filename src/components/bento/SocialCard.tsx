@@ -69,7 +69,7 @@ export function SocialCard({ className, link }: Props) {
           <div className={clsx("flex h-10 w-10 items-center justify-center rounded-xl shadow-sm", meta.pill, meta.icon)}>
             <Icon className="h-5 w-5" />
           </div>
-          <ArrowUpRight className="h-4 w-4 text-slate-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-red" />
+          <ArrowUpRight className="h-4 w-4 text-slate-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-navy" />
         </div>
         <div className="mt-auto pt-4">
           <p className={clsx("text-[11px] font-semibold uppercase tracking-[0.18em]", meta.title, "opacity-70")}>{meta.label}</p>

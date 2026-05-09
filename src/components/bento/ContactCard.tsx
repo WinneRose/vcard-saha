@@ -18,7 +18,7 @@ export function ContactCard({ className, email, phone, address }: Props) {
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">E-posta</p>
-              <p className="truncate text-sm font-medium text-brand-navy group-hover:text-brand-red">{email}</p>
+              <p className="truncate text-sm font-medium text-brand-navy group-hover:text-brand-blue">{email}</p>
             </div>
           </a>
         )}
@@ -29,7 +29,7 @@ export function ContactCard({ className, email, phone, address }: Props) {
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Telefon</p>
-              <p className="truncate text-sm font-medium text-brand-navy group-hover:text-brand-red">{phone}</p>
+              <p className="truncate text-sm font-medium text-brand-navy group-hover:text-brand-blue">{phone}</p>
             </div>
           </a>
         )}
