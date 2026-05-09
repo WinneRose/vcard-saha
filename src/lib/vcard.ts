@@ -11,7 +11,12 @@ function splitName(fullName: string): { first: string; last: string } {
   return { first: parts.slice(0, -1).join(" "), last: parts[parts.length - 1] };
 }
 
-export function buildVCard(p: Profile): string {
+export type BuildVCardOptions = {
+  includePhoto?: boolean;
+};
+
+export function buildVCard(p: Profile, opts: BuildVCardOptions = {}): string {
+  const { includePhoto = true } = opts;
   const { first, last } = splitName(p.fullName);
   const lines: string[] = ["BEGIN:VCARD", "VERSION:3.0"];
 
@@ -31,7 +36,7 @@ export function buildVCard(p: Profile): string {
     lines.push(`URL;TYPE=${s.platform.toUpperCase()}:${s.url}`);
   }
 
-  if (p.photoDataUrl && p.photoDataUrl.startsWith("data:image")) {
+  if (includePhoto && p.photoDataUrl && p.photoDataUrl.startsWith("data:image")) {
     const match = p.photoDataUrl.match(/^data:image\/([a-zA-Z]+);base64,(.*)$/);
     if (match) {
       const [, type, data] = match;

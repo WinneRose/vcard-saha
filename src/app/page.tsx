@@ -29,7 +29,7 @@ export default function Home() {
     };
   }, [profile, hydrated]);
 
-  const vcardString = useMemo(() => buildVCard(profile), [profile]);
+  const qrVCardString = useMemo(() => buildVCard(profile, { includePhoto: false }), [profile]);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -52,7 +52,7 @@ export default function Home() {
           <div className="space-y-6">
             <VCardPreview profile={profile} />
             <div className="flex flex-col items-start gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:flex-row sm:items-center">
-              <QRCodeBlock value={vcardString} onCanvasReady={setQrCanvas} />
+              <QRCodeBlock value={qrVCardString} onCanvasReady={setQrCanvas} />
               <div className="flex-1 space-y-3">
                 <p className="text-sm text-slate-600">
                   Telefon kameranızla QR kodu tarayın — bilgileriniz kişilere eklensin.
