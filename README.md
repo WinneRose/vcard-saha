@@ -27,6 +27,17 @@ npm run build
 npm start
 ```
 
+## Vercel'e Deploy
+
+Repo Vercel'e bağlandığında otomatik olarak Next.js algılanır. `vercel.json` framework, build komutu ve güvenlik header'larını tanımlar. Adımlar:
+
+1. [vercel.com/new](https://vercel.com/new) → GitHub hesabını bağla
+2. `vcard-saha` reposunu seç
+3. Branch olarak `claude/vcard-generator-app-v4kCT` (veya `main` merge sonrası)
+4. **Deploy** — başka ayar gerekmez
+
+Alternatif: `npm i -g vercel && vercel` (CLI ile) — komut interaktif olarak link/kuracak.
+
 ## Yapı
 
 ```
