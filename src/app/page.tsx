@@ -92,7 +92,9 @@ export default function Home() {
 
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
         <header className="mb-6 sm:mb-10">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-blue">vCard Studio</p>
+          <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-blue">
+            Bartın Üniversitesi · Teknofest Kulübü
+          </p>
           <h1 className="mt-1 text-xl font-semibold tracking-tight text-brand-navy sm:text-2xl">
             Dijital Kartvizit
           </h1>
@@ -179,7 +181,10 @@ export default function Home() {
           </section>
         )}
 
-        <footer className="mt-10 pb-6">
+        <footer className="mt-10 space-y-2 pb-6 text-center">
+          <p className="text-xs font-medium text-brand-navy">
+            Bartın Üniversitesi Teknofest Kulübü
+          </p>
           <VisitCounter />
         </footer>
       </main>

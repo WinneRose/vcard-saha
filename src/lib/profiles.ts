@@ -54,6 +54,19 @@ export async function getProfile(slug: string): Promise<ProfileRecord | null> {
   };
 }
 
+export async function incrementProfileViews(slug: string): Promise<number> {
+  if (!isValidSlug(slug)) return 0;
+  await ensureSchema();
+  const q = sql();
+  const rows = (await q`
+    UPDATE profiles
+    SET view_count = view_count + 1
+    WHERE slug = ${slug}
+    RETURNING view_count
+  `) as unknown as Array<{ view_count: string | number }>;
+  return rows.length > 0 ? Number(rows[0].view_count) : 0;
+}
+
 export async function updateProfile(slug: string, editToken: string, data: Profile): Promise<boolean> {
   if (!isValidSlug(slug)) return false;
   await ensureSchema();

@@ -27,6 +27,7 @@ export async function ensureSchema(): Promise<void> {
         )
       `;
       await q`CREATE INDEX IF NOT EXISTS profiles_updated_at_idx ON profiles (updated_at DESC)`;
+      await q`ALTER TABLE profiles ADD COLUMN IF NOT EXISTS view_count BIGINT NOT NULL DEFAULT 0`;
       await q`
         CREATE TABLE IF NOT EXISTS site_stats (
           id INTEGER PRIMARY KEY DEFAULT 1,

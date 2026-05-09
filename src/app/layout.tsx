@@ -2,12 +2,15 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "vCard Studio",
-  description: "Dijital kartvizit + bento profil + QR + CV oluşturma aracı",
+  title: {
+    default: "Bartın Üniversitesi Teknofest Kulübü — Dijital Kartvizit",
+    template: "%s · Bartın Üniversitesi Teknofest Kulübü",
+  },
+  description: "Bartın Üniversitesi Teknofest Kulübü dijital kartvizit, bento profil, QR ve CV oluşturma aracı.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "vCard Studio",
+    title: "BARÜ Teknofest",
     statusBarStyle: "black-translucent",
   },
 };

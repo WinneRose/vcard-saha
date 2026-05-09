@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { getProfile } from "@/lib/profiles";
+import { getProfile, incrementProfileViews } from "@/lib/profiles";
 import { BentoProfile } from "@/components/BentoProfile";
 import { ProfileActions } from "./ProfileActions";
 
@@ -43,6 +43,7 @@ export default async function ProfilePage({ params }: RouteParams) {
   if (!record) notFound();
 
   const profileUrl = await getProfileUrl(slug);
+  const views = await incrementProfileViews(record.slug).catch(() => 0);
 
   return (
     <>
@@ -65,8 +66,12 @@ export default async function ProfilePage({ params }: RouteParams) {
 
       <main className="mx-auto max-w-5xl px-3 py-5 pb-12 sm:px-6 sm:py-10">
         <BentoProfile profile={record.data} profileUrl={profileUrl} />
-        <footer className="mt-10 text-center text-xs text-slate-400">
-          son güncelleme {new Date(record.updatedAt).toLocaleDateString("tr-TR")}
+        <footer className="mt-10 space-y-1 text-center text-xs text-slate-400">
+          <p className="tabular-nums">
+            {views.toLocaleString("tr-TR")} görüntülenme
+          </p>
+          <p>son güncelleme {new Date(record.updatedAt).toLocaleDateString("tr-TR")}</p>
+          <p className="pt-2 font-medium text-brand-navy/80">Bartın Üniversitesi Teknofest Kulübü</p>
         </footer>
       </main>
     </>
