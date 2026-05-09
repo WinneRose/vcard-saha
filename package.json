@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "clsx": "^2.1.1",
     "lucide-react": "^0.460.0",
+    "nanoid": "^5.0.9",
     "next": "15.5.18",
     "qrcode.react": "^4.1.0",
     "react": "^19.0.0",

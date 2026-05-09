@@ -1,18 +1,28 @@
 # vCard Oluşturucu
 
-Basit, görsel bir vCard / kartvizit / mini-CV oluşturma uygulaması. Next.js + Tailwind ile yazıldı, **veriler sadece tarayıcıda** (localStorage) saklanır.
+Görsel bir vCard / kartvizit / bento profil sayfası oluşturma aracı. Next.js + Tailwind + Neon Postgres.
 
 ## Özellikler
 
-- LinkedIn tarzı görsel kart önizlemesi (gradient banner + avatar)
+- LinkedIn tarzı görsel önizleme + bento layout profil sayfası
 - Profil fotoğrafı yükleme (otomatik sıkıştırma)
 - E-posta, telefon, adres, kurum, ünvan, kısa bio
-- Sosyal medya linkleri (LinkedIn, GitHub, Twitter/X, web)
-- **`.vcf` indirme** — telefon rehberine eklenebilir (vCard 3.0)
-- **QR kod** — telefon kamerasıyla taranınca kişi olarak eklenir
-- **PDF / CV** — `/print` sayfasında yazdır → "Save as PDF"
+- Sosyal medya linkleri (LinkedIn, GitHub, Twitter/X, web) — her biri gradient/blur'lu bento kartı
+- `.vcf` indirme + QR kod + yazdırılabilir CV
+- **Yayınla & Paylaş**: `/p/{slug}` URL'si üretilir, OG metadata ile sosyal medya önizlemesi sunulur
+- Yayınlanan profili **/edit/{slug}** üzerinden, sadece yayınlayan tarayıcıdan düzenleyebilirsiniz (localStorage'da tutulan editToken)
 
-## Geliştirme
+## Setup
+
+### 1. Neon Postgres
+
+1. [neon.tech](https://neon.tech) → free tier proje oluştur
+2. Connection string'i kopyala (Dashboard → Connection Details → "Pooled connection" / "psql")
+3. `.env.example`'ı `.env.local` olarak kopyala ve `DATABASE_URL` değerini doldur
+
+İlk istek geldiğinde `profiles` tablosu otomatik (`CREATE TABLE IF NOT EXISTS`) oluşturulur. İsterseniz `sql/0001_init.sql` dosyasını manuel de çalıştırabilirsiniz.
+
+### 2. Local geliştirme
 
 ```bash
 npm install
@@ -20,37 +30,36 @@ npm run dev
 # http://localhost:3000
 ```
 
-## Build
+### 3. Vercel deploy
 
-```bash
-npm run build
-npm start
-```
-
-## Vercel'e Deploy
-
-Repo Vercel'e bağlandığında otomatik olarak Next.js algılanır. `vercel.json` framework, build komutu ve güvenlik header'larını tanımlar. Adımlar:
-
-1. [vercel.com/new](https://vercel.com/new) → GitHub hesabını bağla
-2. `vcard-saha` reposunu seç
-3. Branch olarak `claude/vcard-generator-app-v4kCT` (veya `main` merge sonrası)
-4. **Deploy** — başka ayar gerekmez
-
-Alternatif: `npm i -g vercel && vercel` (CLI ile) — komut interaktif olarak link/kuracak.
+1. [vercel.com/new](https://vercel.com/new) → GitHub bağla → repoyu seç
+2. **Environment Variables**: `DATABASE_URL` ekle (Neon connection string)
+3. **Deploy**
 
 ## Yapı
 
 ```
 src/
   app/
-    page.tsx         # Form + önizleme
-    print/page.tsx   # Yazdırılabilir CV (A4)
-    layout.tsx
-    globals.css      # Tailwind + @media print
-  components/        # VCardForm, VCardPreview, PhotoUpload, SocialLinks, QRCodeBlock, ActionButtons
+    page.tsx                    # Form + önizleme + Yayınla flow
+    p/[slug]/page.tsx           # Bento profil (server-rendered, OG metadata)
+    edit/[slug]/page.tsx        # Yetkili düzenleme
+    api/profiles/route.ts       # POST create
+    api/profiles/[slug]/route.ts # GET read, PUT update
+    print/page.tsx              # Yazdırılabilir CV (A4)
+  components/
+    bento/                      # Bento kartları (Hero, Bio, Contact, Social, QR)
+    BentoProfile.tsx
+    VCardForm, VCardPreview, ...
   lib/
-    vcard.ts         # vCard 3.0 stringleyici
-    storage.ts       # localStorage adaptörü
-    download.ts      # Dosya indirme yardımcıları
+    db.ts                       # Neon client + ensureSchema
+    profiles.ts                 # CRUD
+    saved-profiles.ts           # localStorage editToken yönetimi
+    slug.ts, social.ts, vcard.ts, ...
   types/profile.ts
+sql/0001_init.sql               # Şema referansı
 ```
+
+## Düzenleme yetkisi
+
+Profili oluşturan tarayıcı `editToken` değerini localStorage'a kaydeder. `PUT /api/profiles/[slug]` bu token'ı doğrular. Token kaybolursa profili düzenleme yetkisi de kaybolur (DB'de profil kalmaya devam eder).
