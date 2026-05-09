@@ -76,7 +76,11 @@ export default function Home() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <header className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">vCard Oluşturucu</h1>
+        <div className="flex items-center gap-3">
+          <span className="inline-block h-6 w-1 rounded-full bg-brand-cyan" />
+          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-brand-cyan2">vCard Studio</p>
+        </div>
+        <h1 className="mt-2 text-3xl font-semibold text-brand-ink">Dijital Kartvizit Oluşturucu</h1>
         <p className="mt-1 text-sm text-slate-600">
           Bilgilerinizi girin, kendi paylaşılabilir bento profilinizi yayınlayın.
         </p>
@@ -95,27 +99,27 @@ export default function Home() {
             <div className="space-y-6">
               <VCardPreview profile={profile} />
 
-              <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Yayınla</h2>
+              <div className="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
+                <h2 className="text-[11px] font-semibold uppercase tracking-widest text-brand-cyan2">Yayınla</h2>
                 <p className="mt-1 text-sm text-slate-600">
                   Profilinizi paylaşılabilir bir bento sayfasına çevirin.
                 </p>
                 <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-                  <div className="flex flex-1 items-center gap-1 rounded-md border border-slate-300 px-3 text-sm text-slate-500">
+                  <div className="flex flex-1 items-center gap-1 rounded-md border border-slate-300 px-3 text-sm text-slate-500 focus-within:border-brand-cyan focus-within:ring-1 focus-within:ring-brand-cyan">
                     <span className="hidden sm:inline">/p/</span>
                     <input
                       type="text"
                       value={slugInput}
                       onChange={(e) => setSlugInput(e.target.value)}
                       placeholder={slugify(profile.fullName) || "ayse-yilmaz"}
-                      className="w-full bg-transparent py-2 text-slate-900 outline-none placeholder:text-slate-400"
+                      className="w-full bg-transparent py-2 text-brand-ink outline-none placeholder:text-slate-400"
                     />
                   </div>
                   <button
                     type="button"
                     onClick={handlePublish}
                     disabled={publishing}
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 disabled:opacity-60"
+                    className="inline-flex items-center justify-center gap-2 rounded-md bg-brand-navy px-4 py-2 text-sm font-medium text-white hover:bg-brand-navy2 disabled:opacity-60"
                   >
                     {publishing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Share2 className="h-4 w-4" />}
                     Yayınla & Paylaş
@@ -129,7 +133,7 @@ export default function Home() {
                 {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
               </div>
 
-              <div className="flex flex-col items-start gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200 sm:flex-row sm:items-center">
+              <div className="flex flex-col items-start gap-4 rounded-2xl bg-white p-6 ring-1 ring-slate-200 sm:flex-row sm:items-center">
                 <QRCodeBlock value={qrVCardString} onCanvasReady={setQrCanvas} />
                 <div className="flex-1 space-y-3">
                   <p className="text-sm text-slate-600">
@@ -142,8 +146,8 @@ export default function Home() {
           </div>
 
           {saved.length > 0 && (
-            <section className="mt-10 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Yayınlanan Profilleriniz</h2>
+            <section className="mt-10 rounded-2xl bg-white p-6 ring-1 ring-slate-200">
+              <h2 className="text-[11px] font-semibold uppercase tracking-widest text-brand-cyan2">Yayınlanan Profilleriniz</h2>
               <ul className="mt-3 divide-y divide-slate-100">
                 {saved.map((s) => (
                   <li key={s.slug} className="flex items-center justify-between py-3">
@@ -154,7 +158,7 @@ export default function Home() {
                     <div className="flex items-center gap-2">
                       <Link
                         href={`/p/${s.slug}`}
-                        className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-200"
+                        className="inline-flex items-center gap-1 rounded-md bg-brand-navy px-3 py-1.5 text-xs font-medium text-white hover:bg-brand-navy2"
                       >
                         <ExternalLink className="h-3 w-3" />
                         Görüntüle

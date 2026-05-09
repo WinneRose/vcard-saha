@@ -5,6 +5,7 @@ import { BioCard } from "./bento/BioCard";
 import { ContactCard } from "./bento/ContactCard";
 import { SocialCard } from "./bento/SocialCard";
 import { QRCard } from "./bento/QRCard";
+import { CVCard } from "./bento/CVCard";
 
 type Props = {
   profile: Profile;
@@ -24,6 +25,7 @@ export function BentoProfile({ profile }: Props) {
       />
       <BioCard bio={profile.bio} />
       <ContactCard email={profile.email} phone={profile.phone} address={profile.address} />
+      <CVCard cvFileDataUrl={profile.cvFileDataUrl} cvFileName={profile.cvFileName} />
       {visibleSocials.map((s) => (
         <SocialCard key={s.platform} link={s} />
       ))}

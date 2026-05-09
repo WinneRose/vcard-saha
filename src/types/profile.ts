@@ -14,6 +14,8 @@ export type Profile = {
   address: string;
   bio: string;
   photoDataUrl: string;
+  cvFileDataUrl: string;
+  cvFileName: string;
   socials: SocialLink[];
 };
 
@@ -26,6 +28,8 @@ export const emptyProfile: Profile = {
   address: "",
   bio: "",
   photoDataUrl: "",
+  cvFileDataUrl: "",
+  cvFileName: "",
   socials: [
     { platform: "linkedin", url: "" },
     { platform: "github", url: "" },
@@ -33,3 +37,5 @@ export const emptyProfile: Profile = {
     { platform: "website", url: "" },
   ],
 };
+
+export const MAX_CV_BYTES = 3_000_000;

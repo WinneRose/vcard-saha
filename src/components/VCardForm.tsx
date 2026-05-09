@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import type { Profile } from "@/types/profile";
 import { PhotoUpload } from "./PhotoUpload";
 import { SocialLinks } from "./SocialLinks";
+import { CVUpload } from "./CVUpload";
+import { PdfViewer } from "./PdfViewer";
 
 type Props = {
   profile: Profile;
@@ -10,13 +13,15 @@ type Props = {
 };
 
 export function VCardForm({ profile, onChange }: Props) {
+  const [previewOpen, setPreviewOpen] = useState(false);
+
   const set = <K extends keyof Profile>(key: K, value: Profile[K]) => {
     onChange({ ...profile, [key]: value });
   };
 
   return (
     <form
-      className="space-y-6 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200"
+      className="space-y-6 rounded-2xl bg-white p-6 ring-1 ring-slate-200"
       onSubmit={(e) => e.preventDefault()}
     >
       <Section title="Profil Fotoğrafı">
@@ -56,13 +61,31 @@ export function VCardForm({ profile, onChange }: Props) {
           onChange={(e) => set("bio", e.target.value)}
           rows={4}
           placeholder="Kendinizden kısaca bahsedin..."
-          className="w-full resize-none rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+          className="w-full resize-none rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan"
+        />
+      </Section>
+
+      <Section title="CV / Özgeçmiş (PDF)">
+        <CVUpload
+          cvFileDataUrl={profile.cvFileDataUrl}
+          cvFileName={profile.cvFileName}
+          onChange={({ cvFileDataUrl, cvFileName }) =>
+            onChange({ ...profile, cvFileDataUrl, cvFileName })
+          }
+          onPreview={() => setPreviewOpen(true)}
         />
       </Section>
 
       <Section title="Sosyal Medya">
         <SocialLinks socials={profile.socials} onChange={(s) => set("socials", s)} />
       </Section>
+
+      <PdfViewer
+        open={previewOpen}
+        src={profile.cvFileDataUrl}
+        fileName={profile.cvFileName}
+        onClose={() => setPreviewOpen(false)}
+      />
     </form>
   );
 }
@@ -70,7 +93,7 @@ export function VCardForm({ profile, onChange }: Props) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">{title}</h3>
+      <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-brand-cyan2">{title}</h3>
       {children}
     </div>
   );
@@ -97,7 +120,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan"
       />
     </label>
   );

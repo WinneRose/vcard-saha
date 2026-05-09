@@ -4,13 +4,14 @@ Görsel bir vCard / kartvizit / bento profil sayfası oluşturma aracı. Next.js
 
 ## Özellikler
 
-- LinkedIn tarzı görsel önizleme + bento layout profil sayfası
-- Profil fotoğrafı yükleme (otomatik sıkıştırma)
+- Teknofest kurumsal palet (lacivert + camgöbeği aksent), sade & elegant tasarım
+- Görsel kart önizleme + bento layout profil sayfası
+- Profil fotoğrafı + **CV PDF** yükleme; PDF site içinde inline viewer ile açılır
 - E-posta, telefon, adres, kurum, ünvan, kısa bio
-- Sosyal medya linkleri (LinkedIn, GitHub, Twitter/X, web) — her biri gradient/blur'lu bento kartı
+- Sosyal medya linkleri (LinkedIn, GitHub, Twitter/X, web) — her biri marka rengiyle aksent çizgili bento kartı
 - `.vcf` indirme + QR kod + yazdırılabilir CV
-- **Yayınla & Paylaş**: `/p/{slug}` URL'si üretilir, OG metadata ile sosyal medya önizlemesi sunulur
-- Yayınlanan profili **/edit/{slug}** üzerinden, sadece yayınlayan tarayıcıdan düzenleyebilirsiniz (localStorage'da tutulan editToken)
+- **Yayınla & Paylaş**: `/p/{slug}` URL'si, OG metadata ile sosyal medya önizlemesi
+- `/edit/{slug}` ile yayınlayan tarayıcıdan düzenleme (localStorage'da `editToken`)
 
 ## Setup
 

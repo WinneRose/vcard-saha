@@ -36,7 +36,7 @@ export function SocialLinks({ socials, onChange }: Props) {
               value={s.url}
               onChange={(e) => update(idx, e.target.value)}
               placeholder={meta.placeholder}
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan"
             />
           </label>
         );

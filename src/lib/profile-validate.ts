@@ -29,6 +29,13 @@ function sanitizePhoto(v: unknown): string {
   return v;
 }
 
+function sanitizeCv(v: unknown): string {
+  if (typeof v !== "string") return "";
+  if (!v.startsWith("data:application/pdf;base64,")) return "";
+  if (v.length > 4_500_000) return "";
+  return v;
+}
+
 export function sanitizeProfile(input: unknown): Profile {
   if (!input || typeof input !== "object") return emptyProfile;
   const p = input as Record<string, unknown>;
@@ -41,6 +48,8 @@ export function sanitizeProfile(input: unknown): Profile {
     address: asString(p.address, 200),
     bio: asString(p.bio, 1000),
     photoDataUrl: sanitizePhoto(p.photoDataUrl),
+    cvFileDataUrl: sanitizeCv(p.cvFileDataUrl),
+    cvFileName: asString(p.cvFileName, 200),
     socials: sanitizeSocials(p.socials),
   };
 }

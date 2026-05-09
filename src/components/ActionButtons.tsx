@@ -33,7 +33,7 @@ export function ActionButtons({ profile, qrCanvas }: Props) {
       <button
         type="button"
         onClick={handleVCard}
-        className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700"
+        className="inline-flex items-center gap-2 rounded-md bg-brand-navy px-4 py-2 text-sm font-medium text-white hover:bg-brand-navy2"
       >
         <Download className="h-4 w-4" />
         .vcf İndir
@@ -42,7 +42,7 @@ export function ActionButtons({ profile, qrCanvas }: Props) {
         type="button"
         onClick={handleQR}
         disabled={!qrCanvas}
-        className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 disabled:opacity-50"
+        className="inline-flex items-center gap-2 rounded-md bg-brand-cyan px-4 py-2 text-sm font-semibold text-brand-ink hover:bg-brand-cyan2 hover:text-white disabled:opacity-50"
       >
         <QrCode className="h-4 w-4" />
         QR PNG İndir
@@ -50,10 +50,10 @@ export function ActionButtons({ profile, qrCanvas }: Props) {
       <button
         type="button"
         onClick={handlePDF}
-        className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-medium text-slate-700 ring-1 ring-slate-300 hover:bg-slate-50"
+        className="inline-flex items-center gap-2 rounded-md bg-white px-4 py-2 text-sm font-medium text-brand-navy ring-1 ring-slate-300 hover:bg-brand-mist"
       >
         <FileText className="h-4 w-4" />
-        PDF (CV) İndir
+        Yazdır / PDF
       </button>
     </div>
   );

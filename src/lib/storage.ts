@@ -37,6 +37,8 @@ export function loadProfile(): Profile {
       address: asString(parsed.address),
       bio: asString(parsed.bio),
       photoDataUrl: asString(parsed.photoDataUrl),
+      cvFileDataUrl: asString(parsed.cvFileDataUrl),
+      cvFileName: asString(parsed.cvFileName),
       socials: sanitizeSocials(parsed.socials),
     };
   } catch {

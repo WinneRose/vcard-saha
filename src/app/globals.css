@@ -4,8 +4,13 @@
 
 html,
 body {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #F5F7FA;
+  color: #0F1A2A;
+}
+
+::selection {
+  background-color: #00B5DB;
+  color: #0B1B2B;
 }
 
 @media print {

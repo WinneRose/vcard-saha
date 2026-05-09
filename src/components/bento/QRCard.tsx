@@ -11,24 +11,24 @@ export function QRCard({ value }: Props) {
   const tooLong = bytes > MAX_QR_BYTES;
 
   return (
-    <div className="relative col-span-2 overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 to-slate-700 p-6 text-white shadow-md">
-      <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-white/15 blur-3xl" />
-      <div className="absolute -bottom-12 -left-10 h-32 w-32 rounded-full bg-blue-400/30 blur-3xl" />
+    <div className="relative col-span-2 overflow-hidden rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+      <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-brand-cyan/15 blur-3xl" />
       <div className="relative flex items-center gap-4">
-        <div className="rounded-2xl bg-white p-2">
+        <div className="rounded-xl bg-brand-navy p-2">
           {tooLong ? (
-            <div className="flex h-[120px] w-[120px] items-center justify-center text-center text-[10px] text-amber-700">
+            <div className="flex h-[120px] w-[120px] items-center justify-center text-center text-[10px] text-amber-300">
               İçerik çok uzun
             </div>
           ) : (
-            <QRCodeCanvas value={value} size={120} level="L" marginSize={0} />
+            <div className="rounded-md bg-white p-1.5">
+              <QRCodeCanvas value={value} size={108} level="L" marginSize={0} fgColor="#0B1B2B" />
+            </div>
           )}
         </div>
         <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-white/70">Hızlı Ekle</p>
-          <p className="mt-0.5 text-sm leading-snug text-white/90">
-            Telefon kameranızla taratın — kişilere otomatik eklenir.
-          </p>
+          <p className="text-[11px] font-medium uppercase tracking-widest text-brand-cyan2">Hızlı Ekle</p>
+          <p className="mt-1 text-sm font-semibold text-brand-ink">Telefonunla taratın</p>
+          <p className="mt-1 text-xs text-slate-500">Kişilere otomatik eklenir.</p>
         </div>
       </div>
     </div>

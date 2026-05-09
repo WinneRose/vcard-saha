@@ -43,7 +43,7 @@ export function ProfileActions({ slug, profile }: Props) {
       <button
         type="button"
         onClick={handleVCard}
-        className="inline-flex items-center gap-1.5 rounded-md bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800"
+        className="inline-flex items-center gap-1.5 rounded-md bg-brand-navy px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-navy2"
       >
         <Download className="h-4 w-4" />
         .vcf
@@ -51,7 +51,7 @@ export function ProfileActions({ slug, profile }: Props) {
       {canEdit && (
         <Link
           href={`/edit/${slug}`}
-          className="inline-flex items-center gap-1.5 rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+          className="inline-flex items-center gap-1.5 rounded-md bg-brand-cyan px-3 py-1.5 text-sm font-semibold text-brand-ink hover:bg-brand-cyan2 hover:text-white"
         >
           <Pencil className="h-4 w-4" />
           Düzenle
