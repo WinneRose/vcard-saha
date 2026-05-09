@@ -8,11 +8,11 @@ type Props = {
   onChange: (next: SocialLink[]) => void;
 };
 
-const META: Record<SocialPlatform, { label: string; placeholder: string; Icon: typeof Linkedin }> = {
-  linkedin: { label: "LinkedIn", placeholder: "https://linkedin.com/in/kullanici", Icon: Linkedin },
-  github: { label: "GitHub", placeholder: "https://github.com/kullanici", Icon: Github },
-  twitter: { label: "Twitter / X", placeholder: "https://twitter.com/kullanici", Icon: Twitter },
-  website: { label: "Web Sitesi", placeholder: "https://siteniz.com", Icon: Globe },
+const META: Record<SocialPlatform, { label: string; placeholder: string; Icon: typeof Linkedin; bg: string }> = {
+  linkedin: { label: "LinkedIn", placeholder: "https://linkedin.com/in/kullanici", Icon: Linkedin, bg: "bg-brand-blue/10 text-brand-blue" },
+  github: { label: "GitHub", placeholder: "https://github.com/kullanici", Icon: Github, bg: "bg-brand-navy/10 text-brand-navy" },
+  twitter: { label: "Twitter / X", placeholder: "https://twitter.com/kullanici", Icon: Twitter, bg: "bg-brand-navy/10 text-brand-navy" },
+  website: { label: "Web Sitesi", placeholder: "https://siteniz.com", Icon: Globe, bg: "bg-brand-orange/15 text-brand-orange" },
 };
 
 export function SocialLinks({ socials, onChange }: Props) {
@@ -22,13 +22,13 @@ export function SocialLinks({ socials, onChange }: Props) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5">
       {socials.map((s, idx) => {
         const meta = META[s.platform];
         const { Icon } = meta;
         return (
           <label key={s.platform} className="flex items-center gap-3">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-700">
+            <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${meta.bg}`}>
               <Icon className="h-4 w-4" />
             </span>
             <input
@@ -36,7 +36,7 @@ export function SocialLinks({ socials, onChange }: Props) {
               value={s.url}
               onChange={(e) => update(idx, e.target.value)}
               placeholder={meta.placeholder}
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan"
+              className="h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-brand-navy focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/30"
             />
           </label>
         );

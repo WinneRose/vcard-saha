@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Pencil, Download, Copy, Check } from "lucide-react";
+import { Pencil, Download, Copy, Check, Share2 } from "lucide-react";
 import type { Profile } from "@/types/profile";
 import { buildVCard } from "@/lib/vcard";
 import { downloadText, safeFilename } from "@/lib/download";
@@ -12,10 +12,12 @@ type Props = { slug: string; profile: Profile };
 
 export function ProfileActions({ slug, profile }: Props) {
   const [canEdit, setCanEdit] = useState(false);
+  const [canShare, setCanShare] = useState(false);
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setCanEdit(hasEditToken(slug));
+    setCanShare(typeof navigator !== "undefined" && typeof navigator.share === "function");
   }, [slug]);
 
   const handleVCard = () => {
@@ -23,38 +25,54 @@ export function ProfileActions({ slug, profile }: Props) {
     downloadText(`${safeFilename(profile.fullName) || slug}.vcf`, vcf, "text/vcard");
   };
 
-  const handleCopy = async () => {
-    if (typeof navigator === "undefined") return;
-    await navigator.clipboard.writeText(window.location.href);
+  const handleShare = async () => {
+    const url = window.location.href;
+    const shareData = {
+      title: profile.fullName ? `${profile.fullName} — vCard` : "vCard",
+      text: profile.title || "Dijital kartvizit",
+      url,
+    };
+    if (canShare) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch {
+        // user cancelled or unsupported
+      }
+    }
+    await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5">
       <button
         type="button"
-        onClick={handleCopy}
-        className="inline-flex items-center gap-1.5 rounded-md bg-white px-3 py-1.5 text-sm font-medium text-slate-700 ring-1 ring-slate-300 hover:bg-slate-50"
+        onClick={handleShare}
+        className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-mist px-3 text-sm font-medium text-brand-navy hover:bg-brand-blue/10"
+        title="Paylaş"
       >
-        {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
-        {copied ? "Kopyalandı" : "Linki Kopyala"}
+        {copied ? <Check className="h-4 w-4 text-brand-blue" /> : canShare ? <Share2 className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+        <span className="hidden sm:inline">{copied ? "Kopyalandı" : "Paylaş"}</span>
       </button>
       <button
         type="button"
         onClick={handleVCard}
-        className="inline-flex items-center gap-1.5 rounded-md bg-brand-navy px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-navy2"
+        className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-blue px-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-blueDark active:scale-[0.98]"
+        title=".vcf indir"
       >
         <Download className="h-4 w-4" />
-        .vcf
+        <span className="hidden sm:inline">.vcf</span>
       </button>
       {canEdit && (
         <Link
           href={`/edit/${slug}`}
-          className="inline-flex items-center gap-1.5 rounded-md bg-brand-cyan px-3 py-1.5 text-sm font-semibold text-brand-ink hover:bg-brand-cyan2 hover:text-white"
+          className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-red px-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-redDark active:scale-[0.98]"
+          title="Düzenle"
         >
           <Pencil className="h-4 w-4" />
-          Düzenle
+          <span className="hidden sm:inline">Düzenle</span>
         </Link>
       )}
     </div>

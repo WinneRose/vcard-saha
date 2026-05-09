@@ -31,19 +31,19 @@ export function CVUpload({ cvFileDataUrl, cvFileName, onChange, onPreview }: Pro
 
   if (cvFileDataUrl) {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-cyan/10 text-brand-cyan2">
+      <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-red/10 text-brand-red">
           <FileText className="h-5 w-5" />
         </div>
         <div className="flex-1 truncate">
-          <p className="truncate text-sm font-medium text-brand-ink">{cvFileName || "cv.pdf"}</p>
+          <p className="truncate text-sm font-medium text-brand-navy">{cvFileName || "cv.pdf"}</p>
           <p className="text-xs text-slate-500">PDF yüklendi</p>
         </div>
         {onPreview && (
           <button
             type="button"
             onClick={onPreview}
-            className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-brand-navy hover:bg-slate-100"
+            className="inline-flex h-9 items-center gap-1 rounded-lg px-3 text-xs font-medium text-brand-navy hover:bg-brand-mist"
             title="Önizle"
           >
             <Eye className="h-3.5 w-3.5" />
@@ -53,7 +53,7 @@ export function CVUpload({ cvFileDataUrl, cvFileName, onChange, onPreview }: Pro
         <button
           type="button"
           onClick={() => onChange({ cvFileDataUrl: "", cvFileName: "" })}
-          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-red-50 hover:text-red-600"
+          className="inline-flex h-9 items-center gap-1 rounded-lg px-3 text-xs text-slate-500 hover:bg-red-50 hover:text-brand-red"
         >
           <X className="h-3.5 w-3.5" />
           Kaldır
@@ -67,7 +67,7 @@ export function CVUpload({ cvFileDataUrl, cvFileName, onChange, onPreview }: Pro
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-300 bg-white px-4 py-6 text-sm font-medium text-slate-600 transition hover:border-brand-cyan hover:text-brand-navy"
+        className="flex w-full items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-brand-blue/50 bg-brand-mist px-4 py-7 text-sm font-medium text-brand-navy transition hover:border-brand-red hover:bg-white active:scale-[0.99]"
       >
         <Upload className="h-4 w-4" />
         CV / PDF Yükle (max 3 MB)
@@ -83,7 +83,7 @@ export function CVUpload({ cvFileDataUrl, cvFileName, onChange, onPreview }: Pro
           e.target.value = "";
         }}
       />
-      {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-xs text-brand-red">{error}</p>}
     </div>
   );
 }

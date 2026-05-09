@@ -1,0 +1,12 @@
+{
+  "name": "vCard Studio",
+  "short_name": "vCard",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F5F9FF",
+  "theme_color": "#003A70",
+  "icons": [
+    { "src": "/icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any" }
+  ]
+}

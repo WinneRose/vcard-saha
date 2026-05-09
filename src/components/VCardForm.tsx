@@ -21,7 +21,7 @@ export function VCardForm({ profile, onChange }: Props) {
 
   return (
     <form
-      className="space-y-6 rounded-2xl bg-white p-6 ring-1 ring-slate-200"
+      className="space-y-6 rounded-3xl bg-white p-5 ring-1 ring-slate-200/80 sm:p-6"
       onSubmit={(e) => e.preventDefault()}
     >
       <Section title="Profil Fotoğrafı">
@@ -61,7 +61,7 @@ export function VCardForm({ profile, onChange }: Props) {
           onChange={(e) => set("bio", e.target.value)}
           rows={4}
           placeholder="Kendinizden kısaca bahsedin..."
-          className="w-full resize-none rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan"
+          className="w-full resize-none rounded-2xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-brand-navy focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/30"
         />
       </Section>
 
@@ -93,7 +93,10 @@ export function VCardForm({ profile, onChange }: Props) {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-brand-cyan2">{title}</h3>
+      <h3 className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-brand-red">
+        <span className="inline-block h-1 w-4 rounded-full bg-brand-red" />
+        {title}
+      </h3>
       {children}
     </div>
   );
@@ -120,7 +123,7 @@ function Field({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan"
+        className="h-11 w-full rounded-xl border border-slate-300 bg-white px-3 text-sm text-brand-navy focus:border-brand-red focus:outline-none focus:ring-2 focus:ring-brand-red/30"
       />
     </label>
   );

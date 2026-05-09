@@ -4,13 +4,37 @@
 
 html,
 body {
-  background-color: #F5F7FA;
-  color: #0F1A2A;
+  color: #003A70;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 50% -200px, rgba(135, 206, 235, 0.55), transparent 70%),
+    linear-gradient(180deg, #DCEEFB 0%, #F5F9FF 60%, #F5F9FF 100%);
+  background-attachment: fixed;
 }
 
 ::selection {
-  background-color: #00B5DB;
-  color: #0B1B2B;
+  background-color: #E30613;
+  color: #ffffff;
+}
+
+@supports (padding: max(0px)) {
+  .safe-bottom {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+  .safe-top {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+}
+
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }
 
 @media print {

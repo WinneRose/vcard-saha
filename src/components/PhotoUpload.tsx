@@ -20,21 +20,26 @@ export function PhotoUpload({ photoDataUrl, onChange }: Props) {
 
   return (
     <div className="flex items-center gap-4">
-      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full bg-slate-200 ring-2 ring-slate-300">
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full bg-brand-mist ring-2 ring-slate-200 transition hover:ring-brand-red"
+        title="Fotoğraf seç"
+      >
         {photoDataUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={photoDataUrl} alt="Profil" className="h-full w-full object-cover" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-slate-400">
+          <div className="flex h-full w-full items-center justify-center text-brand-blue">
             <Camera className="h-8 w-8" />
           </div>
         )}
-      </div>
+      </button>
       <div className="flex flex-col gap-2">
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="rounded-md bg-brand-navy px-3 py-1.5 text-sm font-medium text-white hover:bg-brand-navy2"
+          className="inline-flex h-10 items-center justify-center rounded-xl bg-brand-red px-4 text-sm font-semibold text-white shadow-sm hover:bg-brand-redDark active:scale-[0.98]"
         >
           Fotoğraf Yükle
         </button>
@@ -42,7 +47,7 @@ export function PhotoUpload({ photoDataUrl, onChange }: Props) {
           <button
             type="button"
             onClick={() => onChange("")}
-            className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800"
+            className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-brand-red"
           >
             <X className="h-3 w-3" /> Kaldır
           </button>
