@@ -3,8 +3,8 @@
 import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Loader2, Save } from "lucide-react";
-import { VCardForm } from "@/components/VCardForm";
+import { ArrowLeft } from "lucide-react";
+import { Wizard } from "@/components/wizard/Wizard";
 import { VCardPreview } from "@/components/VCardPreview";
 import { Toast } from "@/components/Toast";
 import { emptyProfile, type Profile } from "@/types/profile";
@@ -19,6 +19,7 @@ export default function EditPage({ params }: Props) {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [slugInput, setSlugInput] = useState(slug);
   const [toast, setToast] = useState<{ msg: string; variant: "success" | "error" } | null>(null);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export default function EditPage({ params }: Props) {
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           <div className="h-[480px] animate-pulse rounded-3xl bg-white/60" />
-          <div className="h-[480px] animate-pulse rounded-3xl bg-white/60" />
+          <div className="hidden h-[480px] animate-pulse rounded-3xl bg-white/60 lg:block" />
         </div>
       </main>
     );
@@ -87,50 +88,38 @@ export default function EditPage({ params }: Props) {
     <>
       <Toast message={toast?.msg ?? null} variant={toast?.variant} onClose={() => setToast(null)} />
 
-      <header className="safe-top sticky top-0 z-30 border-b border-white/40 bg-white/70 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-3 sm:px-6">
+      <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
+        <header className="mb-5 flex items-center justify-between gap-2 sm:mb-8">
           <Link
             href={`/p/${slug}`}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-brand-navy hover:bg-brand-mist"
-            aria-label="Profile dön"
+            className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-mist px-3 text-sm font-medium text-brand-navy hover:bg-brand-blue/10"
           >
-            <ArrowLeft className="h-5 w-5" />
+            <ArrowLeft className="h-4 w-4" />
+            Profile dön
           </Link>
-          <div className="min-w-0 flex-1 text-center">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-red">Düzenle</p>
-            <p className="truncate text-sm font-semibold text-brand-navy">/p/{slug}</p>
+          <div className="text-right">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-brand-red">Düzenle</p>
+            <p className="font-mono text-xs text-brand-navy">/p/{slug}</p>
           </div>
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={saving}
-            className="hidden h-10 items-center gap-2 rounded-xl bg-brand-red px-4 text-sm font-semibold text-white shadow-sm hover:bg-brand-redDark active:scale-[0.98] disabled:opacity-60 sm:inline-flex"
-          >
-            {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            Kaydet
-          </button>
-        </nav>
-      </header>
+        </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-6 pb-24 sm:px-6 sm:py-10 sm:pb-10">
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-6">
-          <VCardForm profile={profile} onChange={setProfile} />
-          <VCardPreview profile={profile} />
+          <Wizard
+            profile={profile}
+            onChange={setProfile}
+            slugInput={slugInput}
+            onSlugInputChange={setSlugInput}
+            onPublish={handleSave}
+            publishing={saving}
+            publishLabel="Değişiklikleri Kaydet"
+            finalStepLabel="Kaydet"
+          />
+
+          <aside className="hidden lg:block">
+            <VCardPreview profile={profile} />
+          </aside>
         </div>
       </main>
-
-      {/* Mobile sticky save bar */}
-      <div className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-white/40 bg-white/85 px-4 py-3 backdrop-blur-xl sm:hidden">
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving}
-          className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-brand-red text-base font-semibold text-white shadow-md hover:bg-brand-redDark active:scale-[0.98] disabled:opacity-60"
-        >
-          {saving ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
-          Değişiklikleri Kaydet
-        </button>
-      </div>
     </>
   );
 }
