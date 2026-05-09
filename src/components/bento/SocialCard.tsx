@@ -1,4 +1,5 @@
 import { Linkedin, Github, Twitter, Globe, ArrowUpRight } from "lucide-react";
+import clsx from "clsx";
 import type { SocialLink, SocialPlatform } from "@/types/profile";
 import { extractHandle } from "@/lib/social";
 
@@ -9,16 +10,44 @@ const ICONS: Record<SocialPlatform, typeof Linkedin> = {
   website: Globe,
 };
 
-const META: Record<SocialPlatform, { label: string; accent: string; orb: string }> = {
-  linkedin: { label: "LinkedIn", accent: "#0071BC", orb: "rgba(0, 113, 188, 0.18)" },
-  github: { label: "GitHub", accent: "#003A70", orb: "rgba(0, 58, 112, 0.18)" },
-  twitter: { label: "Twitter", accent: "#003A70", orb: "rgba(0, 58, 112, 0.18)" },
-  website: { label: "Web", accent: "#F39200", orb: "rgba(243, 146, 0, 0.22)" },
+const META: Record<SocialPlatform, { label: string; bg: string; ring: string; pill: string; icon: string; title: string }> = {
+  linkedin: {
+    label: "LinkedIn",
+    bg: "bg-[#E8F0FB]",
+    ring: "ring-[#0071BC]/15",
+    pill: "bg-[#0071BC]",
+    icon: "text-white",
+    title: "text-[#003A70]",
+  },
+  github: {
+    label: "GitHub",
+    bg: "bg-[#EEF1F5]",
+    ring: "ring-[#003A70]/15",
+    pill: "bg-[#003A70]",
+    icon: "text-white",
+    title: "text-[#003A70]",
+  },
+  twitter: {
+    label: "Twitter / X",
+    bg: "bg-[#EFF2F6]",
+    ring: "ring-slate-300/40",
+    pill: "bg-[#0F1A2A]",
+    icon: "text-white",
+    title: "text-[#0F1A2A]",
+  },
+  website: {
+    label: "Web",
+    bg: "bg-[#FFF1DD]",
+    ring: "ring-brand-orange/20",
+    pill: "bg-brand-orange",
+    icon: "text-white",
+    title: "text-brand-orangeDark",
+  },
 };
 
-type Props = { link: SocialLink };
+type Props = { className?: string; link: SocialLink };
 
-export function SocialCard({ link }: Props) {
+export function SocialCard({ className, link }: Props) {
   const Icon = ICONS[link.platform];
   const meta = META[link.platform];
   const handle = extractHandle(link.platform, link.url);
@@ -28,27 +57,24 @@ export function SocialCard({ link }: Props) {
       href={link.url}
       target="_blank"
       rel="noreferrer noopener"
-      className="group relative col-span-2 overflow-hidden rounded-3xl bg-white p-5 ring-1 ring-slate-200/80 transition active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-md"
-      style={{ borderTop: `3px solid ${meta.accent}` }}
+      className={clsx(
+        "group relative overflow-hidden rounded-3xl p-5 ring-1 transition active:scale-[0.99] hover:-translate-y-0.5 hover:shadow-md",
+        meta.bg,
+        meta.ring,
+        className,
+      )}
     >
-      <div
-        className="pointer-events-none absolute -bottom-12 -right-12 h-40 w-40 rounded-full blur-3xl"
-        style={{ background: meta.orb }}
-      />
-      <div className="relative flex items-center justify-between gap-4">
-        <div className="flex min-w-0 items-center gap-3">
-          <div
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white shadow-sm"
-            style={{ backgroundColor: meta.accent }}
-          >
+      <div className="flex h-full flex-col">
+        <div className="flex items-start justify-between">
+          <div className={clsx("flex h-10 w-10 items-center justify-center rounded-xl shadow-sm", meta.pill, meta.icon)}>
             <Icon className="h-5 w-5" />
           </div>
-          <div className="min-w-0">
-            <p className="text-[11px] font-medium uppercase tracking-widest text-slate-500">{meta.label}</p>
-            <p className="mt-0.5 truncate text-sm font-semibold text-brand-navy">{handle || "Bağlantı"}</p>
-          </div>
+          <ArrowUpRight className="h-4 w-4 text-slate-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-red" />
         </div>
-        <ArrowUpRight className="h-5 w-5 shrink-0 text-slate-400 transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-red" />
+        <div className="mt-auto pt-4">
+          <p className={clsx("text-[11px] font-semibold uppercase tracking-[0.18em]", meta.title, "opacity-70")}>{meta.label}</p>
+          <p className={clsx("mt-1 truncate text-base font-semibold", meta.title)}>{handle || "Bağlantı"}</p>
+        </div>
       </div>
     </a>
   );

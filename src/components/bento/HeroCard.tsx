@@ -1,13 +1,15 @@
-import { User } from "lucide-react";
+import { User, MapPin } from "lucide-react";
+import clsx from "clsx";
 
 type Props = {
+  className?: string;
   fullName: string;
   title: string;
   organization: string;
   photoDataUrl: string;
 };
 
-export function HeroCard({ fullName, title, organization, photoDataUrl }: Props) {
+export function HeroCard({ className, fullName, title, organization, photoDataUrl }: Props) {
   const initials =
     fullName
       .split(/\s+/)
@@ -17,27 +19,36 @@ export function HeroCard({ fullName, title, organization, photoDataUrl }: Props)
       .join("") || "?";
 
   return (
-    <div className="relative col-span-2 row-span-2 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-navy via-brand-navy2 to-brand-blue p-7 text-white shadow-lg sm:p-8">
-      <div className="absolute -top-20 -right-16 h-56 w-56 rounded-full bg-brand-sky/40 blur-3xl" />
-      <div className="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-brand-orange/25 blur-3xl" />
-      <div className="absolute right-6 top-6 h-1.5 w-12 rounded-full bg-brand-red" />
-
-      <div className="relative flex h-full flex-col">
-        <div className="h-24 w-24 overflow-hidden rounded-full bg-white/10 ring-2 ring-white/40 sm:h-28 sm:w-28">
+    <div
+      className={clsx(
+        "relative overflow-hidden rounded-3xl bg-[#DCEEFB] p-6 ring-1 ring-brand-blue/10 sm:p-8",
+        className,
+      )}
+    >
+      <div className="relative flex h-full flex-col gap-5 sm:flex-row sm:items-center sm:gap-6">
+        <div className="h-24 w-24 shrink-0 overflow-hidden rounded-3xl bg-white shadow-sm ring-2 ring-white sm:h-28 sm:w-28">
           {photoDataUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={photoDataUrl} alt={fullName} className="h-full w-full object-cover" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center text-3xl font-semibold tracking-wide text-white/90">
+            <div className="flex h-full w-full items-center justify-center bg-brand-blue text-2xl font-semibold text-white sm:text-3xl">
               {initials || <User className="h-12 w-12" />}
             </div>
           )}
         </div>
 
-        <div className="mt-auto pt-6">
-          <h1 className="text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">{fullName || "Adınız"}</h1>
-          {title && <p className="mt-1 text-sm text-white/90 sm:text-base">{title}</p>}
-          {organization && <p className="text-sm text-brand-orange">{organization}</p>}
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-blue">vCard</p>
+          <h1 className="mt-1 text-2xl font-semibold leading-tight text-brand-navy sm:text-3xl">
+            {fullName || "Adınız"}
+          </h1>
+          {title && <p className="mt-1 text-sm text-brand-navy/80 sm:text-base">{title}</p>}
+          {organization && (
+            <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-brand-navy">
+              <MapPin className="h-3 w-3 text-brand-red" />
+              {organization}
+            </p>
+          )}
         </div>
       </div>
     </div>

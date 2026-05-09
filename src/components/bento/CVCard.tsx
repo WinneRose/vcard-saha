@@ -2,38 +2,42 @@
 
 import { useState } from "react";
 import { FileText, Eye, Download } from "lucide-react";
+import clsx from "clsx";
 import { PdfViewer } from "@/components/PdfViewer";
 import { downloadDataUrl } from "@/lib/download";
 
 type Props = {
+  className?: string;
   cvFileDataUrl: string;
   cvFileName: string;
 };
 
-export function CVCard({ cvFileDataUrl, cvFileName }: Props) {
+export function CVCard({ className, cvFileDataUrl, cvFileName }: Props) {
   const [open, setOpen] = useState(false);
   if (!cvFileDataUrl) return null;
   const name = cvFileName || "cv.pdf";
 
   return (
     <>
-      <div className="relative col-span-2 overflow-hidden rounded-3xl bg-white p-6 ring-1 ring-slate-200/80 transition hover:ring-brand-red">
-        <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-brand-red/12 blur-3xl" />
-        <div className="absolute -bottom-16 -left-12 h-44 w-44 rounded-full bg-brand-orange/15 blur-3xl" />
-        <div className="relative flex items-center gap-4">
-          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-red text-white shadow-sm">
-            <FileText className="h-7 w-7" />
+      <div className={clsx("relative overflow-hidden rounded-3xl bg-[#FFF1DD] p-6 ring-1 ring-brand-orange/20", className)}>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-orangeDark">Belge</p>
+        <h3 className="mt-1 text-base font-semibold text-brand-navy">CV / Özgeçmiş</h3>
+
+        <div className="mt-3 flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm">
+          <div className="flex h-14 w-11 shrink-0 items-center justify-center rounded-md bg-gradient-to-b from-brand-red to-brand-redDark text-white">
+            <FileText className="h-5 w-5" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-medium uppercase tracking-widest text-brand-red">CV / Özgeçmiş</p>
-            <p className="mt-1 truncate text-sm font-semibold text-brand-navy">{name}</p>
+            <p className="truncate text-sm font-semibold text-brand-navy">{name}</p>
+            <p className="text-xs text-slate-500">PDF dosyası</p>
           </div>
         </div>
-        <div className="relative mt-4 flex flex-wrap gap-2">
+
+        <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-red px-4 text-xs font-semibold text-white shadow-sm hover:bg-brand-redDark active:scale-[0.98]"
+            className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand-navy px-4 text-xs font-semibold text-white shadow-sm hover:bg-brand-navy2 active:scale-[0.98]"
           >
             <Eye className="h-3.5 w-3.5" />
             Sitede Görüntüle

@@ -9,27 +9,38 @@ import { CVCard } from "./bento/CVCard";
 
 type Props = {
   profile: Profile;
+  profileUrl?: string;
 };
 
-export function BentoProfile({ profile }: Props) {
+export function BentoProfile({ profile, profileUrl }: Props) {
   const visibleSocials = profile.socials.filter((s) => s.url.trim());
-  const qrPayload = buildVCard(profile, { includePhoto: false });
+  const qrPayload = profileUrl || buildVCard(profile, { includePhoto: false });
 
   return (
-    <div className="grid auto-rows-[minmax(96px,auto)] grid-cols-2 gap-4 sm:gap-5 md:grid-cols-4">
+    <div className="grid auto-rows-[minmax(120px,auto)] grid-cols-2 gap-3 sm:gap-4 md:grid-cols-6">
       <HeroCard
+        className="col-span-2 row-span-2 md:col-span-4"
         fullName={profile.fullName}
         title={profile.title}
         organization={profile.organization}
         photoDataUrl={profile.photoDataUrl}
       />
-      <BioCard bio={profile.bio} />
-      <ContactCard email={profile.email} phone={profile.phone} address={profile.address} />
-      <CVCard cvFileDataUrl={profile.cvFileDataUrl} cvFileName={profile.cvFileName} />
+      <ContactCard
+        className="col-span-2 md:col-span-2 md:row-span-2"
+        email={profile.email}
+        phone={profile.phone}
+        address={profile.address}
+      />
+      <BioCard className="col-span-2 md:col-span-3" bio={profile.bio} />
+      <CVCard
+        className="col-span-2 md:col-span-3"
+        cvFileDataUrl={profile.cvFileDataUrl}
+        cvFileName={profile.cvFileName}
+      />
       {visibleSocials.map((s) => (
-        <SocialCard key={s.platform} link={s} />
+        <SocialCard key={s.platform} className="col-span-2 md:col-span-2" link={s} />
       ))}
-      <QRCard value={qrPayload} />
+      <QRCard className="col-span-2 md:col-span-3" value={qrPayload} isUrl={Boolean(profileUrl)} url={profileUrl} />
     </div>
   );
 }

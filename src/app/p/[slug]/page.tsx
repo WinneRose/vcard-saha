@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -9,6 +10,13 @@ import { ProfileActions } from "./ProfileActions";
 export const dynamic = "force-dynamic";
 
 type RouteParams = { params: Promise<{ slug: string }> };
+
+async function getProfileUrl(slug: string): Promise<string> {
+  const h = await headers();
+  const host = h.get("x-forwarded-host") || h.get("host") || "localhost:3000";
+  const proto = h.get("x-forwarded-proto") || (host.startsWith("localhost") ? "http" : "https");
+  return `${proto}://${host}/p/${slug}`;
+}
 
 export async function generateMetadata({ params }: RouteParams): Promise<Metadata> {
   const { slug } = await params;
@@ -34,6 +42,8 @@ export default async function ProfilePage({ params }: RouteParams) {
   const record = await getProfile(slug);
   if (!record) notFound();
 
+  const profileUrl = await getProfileUrl(slug);
+
   return (
     <>
       <header className="safe-top sticky top-0 z-30 border-b border-white/40 bg-white/70 backdrop-blur-xl">
@@ -53,8 +63,8 @@ export default async function ProfilePage({ params }: RouteParams) {
         </nav>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-6 pb-12 sm:px-6 sm:py-10">
-        <BentoProfile profile={record.data} />
+      <main className="mx-auto max-w-5xl px-3 py-5 pb-12 sm:px-6 sm:py-10">
+        <BentoProfile profile={record.data} profileUrl={profileUrl} />
         <footer className="mt-10 text-center text-xs text-slate-400">
           son güncelleme {new Date(record.updatedAt).toLocaleDateString("tr-TR")}
         </footer>

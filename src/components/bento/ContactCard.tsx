@@ -1,43 +1,50 @@
 import { Mail, Phone, MapPin } from "lucide-react";
+import clsx from "clsx";
 
-type Props = { email: string; phone: string; address: string };
+type Props = { className?: string; email: string; phone: string; address: string };
 
-export function ContactCard({ email, phone, address }: Props) {
+export function ContactCard({ className, email, phone, address }: Props) {
   if (!email && !phone && !address) return null;
   return (
-    <div className="relative col-span-2 overflow-hidden rounded-3xl bg-white p-6 ring-1 ring-slate-200/80">
-      <div className="absolute left-6 top-0 h-1.5 w-12 rounded-b-full bg-brand-blue" />
-      <p className="text-[11px] font-medium uppercase tracking-widest text-brand-blue">İletişim</p>
-      <ul className="mt-3 space-y-2.5 text-sm text-slate-700">
+    <div className={clsx("relative overflow-hidden rounded-3xl bg-[#E8F4FD] p-6 ring-1 ring-brand-blue/15", className)}>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-blue">İletişim</p>
+      <h3 className="mt-1 text-base font-semibold text-brand-navy">Bana ulaş</h3>
+
+      <div className="mt-4 space-y-2">
         {email && (
-          <li>
-            <a href={`mailto:${email}`} className="flex items-center gap-2.5 hover:text-brand-red">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-blue/10 text-brand-blue">
-                <Mail className="h-3.5 w-3.5" />
-              </span>
-              <span className="break-all">{email}</span>
-            </a>
-          </li>
+          <a href={`mailto:${email}`} className="group flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm transition active:scale-[0.99] hover:shadow-md">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
+              <Mail className="h-4 w-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">E-posta</p>
+              <p className="truncate text-sm font-medium text-brand-navy group-hover:text-brand-red">{email}</p>
+            </div>
+          </a>
         )}
         {phone && (
-          <li>
-            <a href={`tel:${phone}`} className="flex items-center gap-2.5 hover:text-brand-red">
-              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-blue/10 text-brand-blue">
-                <Phone className="h-3.5 w-3.5" />
-              </span>
-              <span>{phone}</span>
-            </a>
-          </li>
+          <a href={`tel:${phone}`} className="group flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm transition active:scale-[0.99] hover:shadow-md">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
+              <Phone className="h-4 w-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Telefon</p>
+              <p className="truncate text-sm font-medium text-brand-navy group-hover:text-brand-red">{phone}</p>
+            </div>
+          </a>
         )}
         {address && (
-          <li className="flex items-center gap-2.5">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-blue/10 text-brand-blue">
-              <MapPin className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-3 rounded-2xl bg-white p-3 shadow-sm">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-blue/10 text-brand-blue">
+              <MapPin className="h-4 w-4" />
             </span>
-            <span>{address}</span>
-          </li>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Adres</p>
+              <p className="truncate text-sm font-medium text-brand-navy">{address}</p>
+            </div>
+          </div>
         )}
-      </ul>
+      </div>
     </div>
   );
 }
